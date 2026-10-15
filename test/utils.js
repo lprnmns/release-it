@@ -83,6 +83,21 @@ test('parseGitUrl', () => {
     remote: 'file://users/john/doe/owner/project',
     repository: 'owner/project'
   });
+
+  for (const windowsPath of [
+    'C:\\Users\\john\\doe\\owner\\project',
+    'C:/Users/john/doe/owner/project',
+    'c:\\Users\\john\\doe\\owner\\project'
+  ]) {
+    assert.deepEqual(parseGitUrl(windowsPath), {
+      host: 'users',
+      owner: 'owner',
+      project: 'project',
+      protocol: 'file',
+      remote: 'file://users/john/doe/owner/project',
+      repository: 'owner/project'
+    });
+  }
 });
 
 test('parseVersion', () => {
